@@ -1,7 +1,4 @@
-"""
-this class is responsible for storing all the info about the current state of chess game . it wii also be
-responsible for determining the valid moves at the current state . it will also keep a move log .
-"""
+
 
 class GameState():
     def __init__(self):
