@@ -69,6 +69,8 @@ def main():
                 if e.key == p.K_z: # undo when 'z' is pressed
                     gs.undoMove()
                     moveMade = True
+                    if not playerOne or not playerTwo:
+                        gs.undoMove()
                 if e.key == p.K_r: # reset the game when 'r' is pressed
                     gs = ChessEngine.GameState()
                     validMoves = gs.getValidMoves()
