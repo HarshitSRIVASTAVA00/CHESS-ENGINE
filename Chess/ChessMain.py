@@ -68,8 +68,8 @@ def main():
             elif e.type == p.KEYDOWN:
                 if e.key == p.K_z: # undo when 'z' is pressed
                     gs.undoMove()
-                    moveMade = True
-                    if not playerOne or not playerTwo:
+                    humanTurn = (gs.whiteToMoves and playerOne) or (not gs.whiteToMoves and playerTwo)
+                    if not humanTurn:
                         gs.undoMove()
                     moveMade = True
                     animate = False
