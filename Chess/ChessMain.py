@@ -71,6 +71,10 @@ def main():
                     moveMade = True
                     if not playerOne or not playerTwo:
                         gs.undoMove()
+                    moveMade = True
+                    animate = False
+                    gameOver = False
+                    humanTurn = (gs.whiteToMoves and playerOne) or (not gs.whiteToMoves and playerTwo)
                 if e.key == p.K_r: # reset the game when 'r' is pressed
                     gs = ChessEngine.GameState()
                     validMoves = gs.getValidMoves()
@@ -79,6 +83,7 @@ def main():
                     moveMade = False
                     animate = False
                     gameOver = False
+                    humanTurn = (gs.whiteToMoves and playerOne) or (not gs.whiteToMoves and playerTwo)
 
         if not gameOver and not humanTurn:
             AIMove = SmartMoveFinder.findRandomMove(validMoves)
