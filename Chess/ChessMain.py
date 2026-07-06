@@ -85,7 +85,7 @@ def main():
                     gameOver = False
                     humanTurn = (gs.whiteToMoves and playerOne) or (not gs.whiteToMoves and playerTwo)
 
-        if not gameOver and not humanTurn:
+        if not gameOver and not humanTurn and not moveMade:
             AIMove = SmartMoveFinder.findRandomMove(validMoves)
             gs.makeMove(AIMove)
             moveMade = True
