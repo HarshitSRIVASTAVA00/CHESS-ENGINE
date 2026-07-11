@@ -30,7 +30,7 @@ def main():
     sqSelected = () # no square is selected initially
     playerClicks = [] # keep track of player clicks
     playerOne = True # if a human is playing white, then this will be True. If an AI is playing, then it will be False.
-    playerTwo = False # same as above but for black
+    playerTwo = True # same as above but for black
 
 
     
