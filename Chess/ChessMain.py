@@ -1,9 +1,15 @@
-#main driver file .it will be responsible for handling user input and displaying the current GameState object .
+#main driver file .it will be responsible for handling user input and displaying the current GameState object
 
 import pygame as p
 import ChessEngine, SmartMoveFinder
 
-WIDTH = HEIGHT = 512
+
+BOARD_WIDTH = 512
+BOARD_HEIGHT = 512
+MOVE_LOG_PANEL_WIDTH = 250
+MOVE_LOG_PANEL_HEIGHT = BOARD_HEIGHT
+WIDTH = BOARD_WIDTH + MOVE_LOG_PANEL_WIDTH
+HEIGHT = BOARD_HEIGHT
 DIMENSION = 8
 SQ_SIZE = HEIGHT // DIMENSION
 MAX_FPS = 15
@@ -18,6 +24,7 @@ def loadImages():
 
 def main():
     p.init()
+    font = p.font.SysFont("Courier New", 16, False, False)
     screen = p.display.set_mode((WIDTH, HEIGHT))
     clock = p.time.Clock()
     screen.fill(p.Color("white"))
@@ -30,7 +37,7 @@ def main():
     sqSelected = () # no square is selected initially
     playerClicks = [] # keep track of player clicks
     playerOne = True # if a human is playing white, then this will be True. If an AI is playing, then it will be False.
-    playerTwo = True # same as above but for black
+    playerTwo = False # same as above but for black
 
 
     
@@ -45,7 +52,7 @@ def main():
                     col = location[0] // SQ_SIZE
                     row = location[1] // SQ_SIZE    
                 
-                    if sqSelected == (row, col): # the user clicked the same square twice
+                    if col >=8: # the user clicked the same square twice
                         sqSelected = () # deselect
                         playerClicks = [] # clear player clicks
                     else:
@@ -102,7 +109,7 @@ def main():
             moveMade = False 
             animate = False       
                         
-        drawGameState(screen, gs, validMoves, sqSelected)
+        drawGameState(screen, gs, validMoves, sqSelected, font)
 
         if gs.checkmate:
             gameOver = True
@@ -142,10 +149,11 @@ def highlightSquares(screen, gs, validMoves, sqSelected):
 
 
 
-def drawGameState(screen, gs, validMoves, sqSelected):
+def drawGameState(screen, gs, validMoves, sqSelected, font):
     drawBoard(screen)
     highlightSquares(screen, gs, validMoves, sqSelected)
     drawPieces(screen, gs.board)
+    drawMoveLog(screen, gs, font)
 
 
 def drawBoard(screen):
@@ -193,6 +201,44 @@ def drawText(screen, text):
 
     textObject = font.render(text, 0, p.Color('Black'))
     screen.blit(textObject, textLocation.move(2, 2))
+
+def drawMoveLog(screen, gs, font):
+    # 1. Draw the background panel
+    moveLogRect = p.Rect(BOARD_WIDTH, 0, MOVE_LOG_PANEL_WIDTH, MOVE_LOG_PANEL_HEIGHT)
+    p.draw.rect(screen, p.Color("black"), moveLogRect)
+    
+    # 2. Build the list of text strings FIRST
+    moveLog = gs.moveLog
+    moveTexts = []
+    for i in range(0, len(moveLog), 2):
+        moveString = str(i//2 + 1) + ". " + str(moveLog[i]) + " "
+        if i + 1 < len(moveLog):
+            moveString += str(moveLog[i+1])
+        moveTexts.append(moveString)
+        
+    # 3. Define your spacing rules
+    padding = 5
+    line_spacing = 2
+    
+    # 4. Calculate heights NOW that moveTexts actually has items in it
+    total_height = len(moveTexts) * (font.get_height() + line_spacing)
+    
+    # 5. Determine where the text should start (the scrolling logic)
+    start_y = padding
+    if total_height > moveLogRect.height:
+        start_y = moveLogRect.height - total_height - padding
+        
+    # 6. Render the text using start_y
+    textY = start_y
+    for line in moveTexts:
+        # Only draw if the line is visible within our panel boundaries
+        if textY >= 0 and textY < moveLogRect.height - font.get_height():
+            textObject = font.render(line, True, p.Color("white"))
+            textLocation = moveLogRect.move(padding, textY)
+            screen.blit(textObject, textLocation)
+            
+        # Increase textY for the next line (whether it was drawn or not)
+        textY += font.get_height() + line_spacing
 
 
 if __name__ == "__main__":
