@@ -521,4 +521,18 @@ class Move():
         return self.getRankFile(self.startRow, self.startCol) + self.getRankFile(self.endRow, self.endCol)
 
     def getRankFile(self, r, c):
-        return self.colsToFiles[c] + self.rowsToRanks[r]        
+        return self.colsToFiles[c] + self.rowsToRanks[r]  
+    
+    def __str__(self):
+        if self.isCastleMove:
+            return "O-O" if self.endCol == 6 else "O-O-O"
+        piece = self.pieceMoved[1]
+        piece_str = "" if piece == "p" else piece.upper()
+    
+        # Get the target square (e.g., "e4")
+        target_square = self.getRankFile(self.endRow, self.endCol)
+    
+        # Add an 'x' if it's a capture
+        capture_str = "x" if self.pieceCaptured != "--" else ""
+    
+        return f"{piece_str}{capture_str}{target_square}"
