@@ -1,25 +1,114 @@
 import random
 
 OPENING_BOOK = {
-    # If it's Turn 1 and AI is White, pick one of these classic openings
-    "": ["e2e4", "d2d4", "c2c4", "g1f3"], 
+
+    # QUEEN'S PAWN OPENINGS (1. d4)
+    "d2d4": ["d7d5", "g8f6", "f7f5"], # Queen's Pawn, Indian Defenses, Dutch Defense
+
+    # --- THE DUTCH DEFENSE (1. d4 f5) ---
+    "d2d4 f7f5": ["g2g3", "c2c4"], 
+    "d2d4 f7f5 g2g3": ["g8f6"],
+    "d2d4 f7f5 g2g3 g8f6": ["f1g2"], # Classic kingside fianchetto response
+
+    # --- CLOSED GAMES (1. d4 d5) ---
+    "d2d4 d7d5": ["c2c4", "g1f3", "c1f4"], # Queen's Gambit, Standard, London System
+    "d2d4 d7d5 c2c4": ["e7e6", "c7c6", "d5c4"], # Declined (QGD), Slav, Accepted (QGA)
     
-    # If White played e4, Black can play the Sicilian (c5) or King's Pawn (e5)
-    "e2e4": ["c7c5", "e7e5", "e7e6"], 
+    # Queen's Gambit Declined (QGD)
+    "d2d4 d7d5 c2c4 e7e6": ["b1c3", "g1f3"],
+    "d2d4 d7d5 c2c4 e7e6 b1c3": ["g8f6", "f8e7"],
     
-    # Ruy Lopez / Italian Game theory
-    "e2e4 e7e5": ["g1f3"],
-    "e2e4 e7e5 g1f3": ["b8c6", "g8f6"],
-    "e2e4 e7e5 g1f3 b8c6": ["f1b5", "f1c4"], # Ruy Lopez or Italian
+    # Slav Defense
+    "d2d4 d7d5 c2c4 c7c6": ["g1f3", "b1c3"],
+    "d2d4 d7d5 c2c4 c7c6 g1f3": ["g8f6"],
+    "d2d4 d7d5 c2c4 c7c6 g1f3 g8f6": ["b1c3"],
     
-    # Sicilian Defense theory
-    "e2e4 c7c5": ["g1f3", "b1c3"],
-    "e2e4 c7c5 g1f3": ["d7d6", "e7e6", "b8c6"],
+    # Queen's Gambit Accepted (QGA)
+    "d2d4 d7d5 c2c4 d5c4": ["g1f3", "e2e3", "e2e4"],
+    "d2d4 d7d5 c2c4 d5c4 g1f3": ["g8f6"],
+
+    # --- INDIAN DEFENSES (1. d4 Nf6) ---
+    "d2d4 g8f6": ["c2c4", "g1f3"],
+    "d2d4 g8f6 c2c4": ["e7e6", "g7g6", "c7c5", "e7e5"], # Nimzo/QID, KID/Grunfeld, Benoni, Budapest
+
+    # Nimzo-Indian & Queen's Indian (QID)
+    "d2d4 g8f6 c2c4 e7e6": ["b1c3", "g1f3"],
+    "d2d4 g8f6 c2c4 e7e6 b1c3": ["f8b4"], # Nimzo-Indian Defense
+    "d2d4 g8f6 c2c4 e7e6 b1c3 f8b4": ["e2e3", "d1c2"],
+    "d2d4 g8f6 c2c4 e7e6 g1f3": ["b7b6", "f8b4"], # Queen's Indian / Bogo-Indian
+    "d2d4 g8f6 c2c4 e7e6 g1f3 b7b6": ["g2g3", "a2a3"], # Queen's Indian main lines
     
-    # Queen's Gambit theory
-    "d2d4": ["d7d5", "g8f6"],
-    "d2d4 d7d5": ["c2c4"],
-    "d2d4 d7d5 c2c4": ["e7e6", "c7c6"] # Declined or Slav
+    # King's Indian (KID) & Grunfeld Defense
+    "d2d4 g8f6 c2c4 g7g6": ["b1c3", "g2g3"],
+    "d2d4 g8f6 c2c4 g7g6 b1c3": ["f8g7", "d7d5"], # KID or Grunfeld
+    "d2d4 g8f6 c2c4 g7g6 b1c3 f8g7": ["e2e4"], # King's Indian Mainline
+    "d2d4 g8f6 c2c4 g7g6 b1c3 f8g7 e2e4": ["d7d6"], 
+    "d2d4 g8f6 c2c4 g7g6 b1c3 d7d5": ["c4d5", "g1f3", "c1f4"], # Grunfeld Mainlines
+    
+    # Benoni Defense
+    "d2d4 g8f6 c2c4 c7c5": ["d4d5"],
+    "d2d4 g8f6 c2c4 c7c5 d4d5": ["e7e6", "d7d6"],
+    "d2d4 g8f6 c2c4 c7c5 d4d5 e7e6": ["b1c3"],
+    
+    # Budapest Gambit
+    "d2d4 g8f6 c2c4 e7e5": ["d4e5"],
+    "d2d4 g8f6 c2c4 e7e5 d4e5": ["f6g4"],
+    "d2d4 g8f6 c2c4 e7e5 d4e5 f6g4": ["g1f3", "c1f4"],
+
+
+    # QUEEN'S PAWN OPENINGS (1. d4)
+    
+    "d2d4": ["d7d5", "g8f6", "f7f5"], # Queen's Pawn, Indian Defenses, Dutch Defense
+
+    # --- THE DUTCH DEFENSE (1. d4 f5) ---
+    "d2d4 f7f5": ["g2g3", "c2c4"], 
+    "d2d4 f7f5 g2g3": ["g8f6"],
+    "d2d4 f7f5 g2g3 g8f6": ["f1g2"], # Classic kingside fianchetto response
+
+    # --- CLOSED GAMES (1. d4 d5) ---
+    "d2d4 d7d5": ["c2c4", "g1f3", "c1f4"], # Queen's Gambit, Standard, London System
+    "d2d4 d7d5 c2c4": ["e7e6", "c7c6", "d5c4"], # Declined (QGD), Slav, Accepted (QGA)
+    
+    # Queen's Gambit Declined (QGD)
+    "d2d4 d7d5 c2c4 e7e6": ["b1c3", "g1f3"],
+    "d2d4 d7d5 c2c4 e7e6 b1c3": ["g8f6", "f8e7"],
+    
+    # Slav Defense
+    "d2d4 d7d5 c2c4 c7c6": ["g1f3", "b1c3"],
+    "d2d4 d7d5 c2c4 c7c6 g1f3": ["g8f6"],
+    "d2d4 d7d5 c2c4 c7c6 g1f3 g8f6": ["b1c3"],
+    
+    # Queen's Gambit Accepted (QGA)
+    "d2d4 d7d5 c2c4 d5c4": ["g1f3", "e2e3", "e2e4"],
+    "d2d4 d7d5 c2c4 d5c4 g1f3": ["g8f6"],
+
+    # --- INDIAN DEFENSES (1. d4 Nf6) ---
+    "d2d4 g8f6": ["c2c4", "g1f3"],
+    "d2d4 g8f6 c2c4": ["e7e6", "g7g6", "c7c5", "e7e5"], # Nimzo/QID, KID/Grunfeld, Benoni, Budapest
+
+    # Nimzo-Indian & Queen's Indian (QID)
+    "d2d4 g8f6 c2c4 e7e6": ["b1c3", "g1f3"],
+    "d2d4 g8f6 c2c4 e7e6 b1c3": ["f8b4"], # Nimzo-Indian Defense
+    "d2d4 g8f6 c2c4 e7e6 b1c3 f8b4": ["e2e3", "d1c2"],
+    "d2d4 g8f6 c2c4 e7e6 g1f3": ["b7b6", "f8b4"], # Queen's Indian / Bogo-Indian
+    "d2d4 g8f6 c2c4 e7e6 g1f3 b7b6": ["g2g3", "a2a3"], # Queen's Indian main lines
+    
+    # King's Indian (KID) & Grunfeld Defense
+    "d2d4 g8f6 c2c4 g7g6": ["b1c3", "g2g3"],
+    "d2d4 g8f6 c2c4 g7g6 b1c3": ["f8g7", "d7d5"], # KID or Grunfeld
+    "d2d4 g8f6 c2c4 g7g6 b1c3 f8g7": ["e2e4"], # King's Indian Mainline
+    "d2d4 g8f6 c2c4 g7g6 b1c3 f8g7 e2e4": ["d7d6"], 
+    "d2d4 g8f6 c2c4 g7g6 b1c3 d7d5": ["c4d5", "g1f3", "c1f4"], # Grunfeld Mainlines
+    
+    # Benoni Defense
+    "d2d4 g8f6 c2c4 c7c5": ["d4d5"],
+    "d2d4 g8f6 c2c4 c7c5 d4d5": ["e7e6", "d7d6"],
+    "d2d4 g8f6 c2c4 c7c5 d4d5 e7e6": ["b1c3"],
+    
+    # Budapest Gambit
+    "d2d4 g8f6 c2c4 e7e5": ["d4e5"],
+    "d2d4 g8f6 c2c4 e7e5 d4e5": ["f6g4"],
+    "d2d4 g8f6 c2c4 e7e5 d4e5 f6g4": ["g1f3", "c1f4"],
 }
 transpositionTable = {}
 
