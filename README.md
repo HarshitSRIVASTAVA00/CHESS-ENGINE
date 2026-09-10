@@ -4,6 +4,8 @@ A fully functional, object-oriented chess engine built from scratch in Python us
 
 This project goes beyond a simple 2D board game by implementing a highly efficient, mathematically rigorous rules engine. It calculates absolute pins, restricts paralyzed pieces, and seamlessly manages complex board states and edge cases like En Passant and Castling.
 
+DEMO LINK : |https://harshitsrivastava00.itch.io/noobai|
+
 ## 🚀 Technical Highlights
 
 Building the rules of chess requires handling massive amounts of edge cases and state memory. Here is how this engine solves them:
