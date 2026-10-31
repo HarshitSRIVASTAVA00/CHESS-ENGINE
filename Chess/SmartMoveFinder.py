@@ -1,4 +1,4 @@
-import random
+import random 
 
 OPENING_BOOK = {
 
