@@ -1,4 +1,4 @@
-# ♟️ Python Chess Engine
+# ♟️ Python Chess Engine 
 
 A fully functional, object-oriented chess engine built from scratch in Python using Pygame. 
 
